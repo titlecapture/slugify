@@ -30,6 +30,8 @@
 
     var trim = options.trim === undefined ? true : options.trim
 
+    var treatMultipleConsecutiveSpacesAsSingleSpace = options.treatMultipleConsecutiveSpacesAsSingleSpace === undefined ? true : options.treatMultipleConsecutiveSpacesAsSingleSpace
+
     var slug = string.normalize().split('')
       // replace characters based on charMap
       .reduce(function (result, ch) {
@@ -50,9 +52,12 @@
       slug = slug.trim()
     }
 
-    // Replace spaces with replacement character, treating multiple consecutive
-    // spaces as a single space.
-    slug = slug.replace(/\s+/g, replacement);
+    // Replace spaces with replacement character.
+    if(treatMultipleConsecutiveSpacesAsSingleSpace) {
+      slug = slug.replace(/\s+/g, replacement);
+    } else {
+      slug = slug.replace(/ /g, replacement);
+    }
 
     if (options.lower) {
       slug = slug.toLowerCase()
